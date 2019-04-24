@@ -20,12 +20,12 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView mIconView;
+    private ImageView mIconImageView;
     private TextView mCityNameTextView;
-    private TextView mDateView;
-    private TextView mDescriptionView;
-    private TextView mTempTextView;
-    private TextView mHighLowTempView;
+    private TextView mDateTextView;
+    private TextView mDescriptionTextView;
+    private TextView mTemperatureTextView;
+    private TextView mHighLowTempTextView;
 
     private HoursForecastAdapter mHoursForecastAdapter;
     private DaysForecastAdapter mDaysForecastsAdapter;
@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize member variables
-        mIconView = findViewById(R.id.weather_icon);
+        mIconImageView = findViewById(R.id.weather_icon);
         mCityNameTextView = findViewById(R.id.city);
-        mDateView = findViewById(R.id.date);
-        mDescriptionView = findViewById(R.id.weather_description);
-        mTempTextView = findViewById(R.id.temperature);
-        mHighLowTempView = findViewById(R.id.high_low_temperature);
+        mDateTextView = findViewById(R.id.date);
+        mDescriptionTextView = findViewById(R.id.weather_description);
+        mTemperatureTextView = findViewById(R.id.temperature);
+        mHighLowTempTextView = findViewById(R.id.high_low_temperature);
 
 
         // Create new HoursForecastAdapter and set it to RecyclerView
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         int weatherImageId = R.drawable.ic_clear_sky;
 
         // Display weather condition icon
-        mIconView.setImageResource(weatherImageId);
+        mIconImageView.setImageResource(weatherImageId);
 
         /* Current city ************************************************************************* */
 
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         String dateString = "Wed, 24 April";
 
         /* Display friendly date string */
-        mDateView.setText(dateString);
+        mDateTextView.setText(dateString);
 
         /* Weather Description ****************************************************************** */
 
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         String description = "Cloudy";
 
         // Display weather description
-        mDescriptionView.setText(description);
+        mDescriptionTextView.setText(description);
 
 
         /* Temperature ************************************************************************** */
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         String temperatureString = "17°";
 
         // Display high temperature
-        mTempTextView.setText(temperatureString);
+        mTemperatureTextView.setText(temperatureString);
 
 
         /* High (max) & Low (min) temperature temperature *************************************** */
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         String lowTemperatureString = "10°";
 
         // Display high/low temperature
-        mHighLowTempView.setText(getString(R.string.high_low_temperature, highTemperatureString, lowTemperatureString));
+        mHighLowTempTextView.setText(getString(R.string.high_low_temperature, highTemperatureString, lowTemperatureString));
 
     }
 
