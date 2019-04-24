@@ -23,10 +23,15 @@
             android:layout_height="220dp">
 
             <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             - To re-use another layouts inside the current layout                               -
-             - you can use the <include/> tag to embed that layout.                              -
+             - Embed the primary weather info fragment using fragment tag by specifying          -
+             - name attribute to refer to the PrimaryWeatherInfoFragment class                   -
              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <include layout="@layout/fragment_primary_weather_info" />
+            <fragment
+                android:id="@+id/fragment_primary_weather_info"
+                android:name="com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_primary_weather_info" />
 
         </FrameLayout>
 
