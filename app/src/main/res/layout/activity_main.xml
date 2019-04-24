@@ -1,18 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - This layout is the main layout which display current weather info, next 24 forecasts         -
+  - and forecast of the coming few days!                                                         -
+  - This Layout file contains three parts inside vertical LinearLayout wrapped by a ScrollView   -                                     -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:scrollbars="none"
+    tools:background="@android:color/black"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="220dp">
+
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             - To re-use another layouts inside the current layout                               -
+             - you can use the <include/> tag to embed that layout.                              -
+             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <include layout="@layout/fragment_primary_weather_info" />
+
+        </FrameLayout>
+
+        <!-- RecyclerView with horizontal orientation to show next 24 hours forecasts -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_hours_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_space"
+            android:clipToPadding="false"
+            android:padding="@dimen/small_space"
+            tools:itemCount="8"
+            tools:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_hour_forecast"
+            tools:orientation="horizontal"
+            tools:scrollbars="horizontal" />
+
+        <!-- RecyclerView with vertical orientation to show coming few days forecasts -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_days_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/small_space"
+            android:layout_marginRight="@dimen/small_space"
+            android:layout_marginBottom="@dimen/small_space"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="@dimen/small_space"
+            tools:listitem="@layout/item_day_forecast" />
+
+    </LinearLayout>
+
+</ScrollView>
