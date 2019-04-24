@@ -1,16 +1,18 @@
 package com.barmej.weatherforecasts;
 
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
 import com.barmej.weatherforecasts.entity.Forecast;
+import com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
  * MainActivity that show current weather info, next hours & days forecasts
  */
 public class MainActivity extends AppCompatActivity {
+
+    private FragmentManager mFragmentManager;
 
     private HoursForecastAdapter mHoursForecastAdapter;
     private DaysForecastAdapter mDaysForecastsAdapter;
@@ -31,6 +35,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Create a new instance from PrimaryWeatherInfo fragment
+        PrimaryWeatherInfoFragment primaryWeatherInfoFragment = new PrimaryWeatherInfoFragment();
+
+        // Get an instance of FragmentManager and assign it to mFragmentManager variable
+        mFragmentManager = getSupportFragmentManager();
+
+        // Get instance of FragmentTransaction
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+        // Add the fragment into the layout by adding it in the FrameLayout with id header
+        fragmentTransaction.add(R.id.header, primaryWeatherInfoFragment);
+
+        // Commit the changes
+        fragmentTransaction.commit();
 
         // Create new HoursForecastAdapter and set it to RecyclerView
         mHoursForecastAdapter = new HoursForecastAdapter(this);
