@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:scrollbars="none"
-    tools:background="@android:color/black"
+    tools:background="@drawable/shape_main_evening_background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -39,6 +39,7 @@
             android:clipToPadding="false"
             android:padding="@dimen/small_space"
             tools:itemCount="8"
+            android:background="@drawable/shape_transparent_rounded_background"
             tools:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_hour_forecast"
             tools:orientation="horizontal"
@@ -53,6 +54,7 @@
             android:layout_marginRight="@dimen/small_space"
             android:layout_marginBottom="@dimen/small_space"
             android:layout_weight="1"
+            android:background="@drawable/shape_transparent_rounded_background"
             android:clipToPadding="false"
             android:padding="@dimen/small_space"
             tools:listitem="@layout/item_day_forecast" />

@@ -5,4 +5,12 @@
     <color name="accent">#D81B60</color>
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#CCCCCC</color>
+
+    <!-- Weather activity background gradient shape start & end color -->
+    <color name="background_start_color_evening">#38068f</color>
+    <color name="background_end_color_evening">#9b0493</color>
+
+    <!-- Forecast's lists rounded shape color -->
+    <color name="background_transparent_black">#55000000</color>
+
 </resources>

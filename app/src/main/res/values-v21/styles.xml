@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- MainActivity theme. -->
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/shape_main_evening_background</item>
+        <item name="actionBarStyle">@style/ActionBarTheme</item>
+    </style>
+
+</resources>
