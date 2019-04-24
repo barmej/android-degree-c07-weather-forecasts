@@ -27,7 +27,9 @@ public class PrimaryWeatherInfoFragment extends Fragment {
     private TextView mTemperatureTextView;
     private TextView mHighLowTempTextView;
 
-    // Required empty public constructor
+    /**
+     * Required empty public constructor
+     */
     public PrimaryWeatherInfoFragment() {
 
     }

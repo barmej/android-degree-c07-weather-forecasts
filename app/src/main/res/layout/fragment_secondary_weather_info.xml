@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - This layout displays today's extra weather info such as humidity, pressure, wind speed       -
+  - and direction beside some icons that represent each of these values
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/extra_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/very_large_space"
+    android:paddingEnd="@dimen/very_large_space"
+    android:paddingTop="@dimen/large_space"
+    android:paddingBottom="@dimen/large_space"
+    android:background="?selectableItemBackground"
+    tools:background="@color/primary">
+
+    <!-- This guideline divides the layout into a left and right parts and used for alignment -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <!-- Humidity label -->
+    <TextView
+        android:id="@+id/humidity_label"
+        style="@style/ExtraDetailLabel"
+        android:layout_marginBottom="@dimen/very_large_space"
+        android:drawableStart="@drawable/ic_humidity"
+        android:drawablePadding="@dimen/small_space"
+        android:text="@string/humidity_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pressure_label"
+        app:layout_constraintTop_toBottomOf="@+id/pressure_label" />
+
+    <!-- Humidity measurement -->
+    <TextView
+        android:id="@+id/humidity"
+        style="@style/ExtraDetailsValue"
+        android:layout_marginStart="@dimen/small_space"
+        app:layout_constraintBottom_toBottomOf="@+id/humidity_label"
+        app:layout_constraintStart_toStartOf="@+id/horizontal_middle"
+        app:layout_constraintTop_toTopOf="@+id/humidity_label"
+        tools:text="80%" />
+
+    <!-- Pressure label -->
+    <TextView
+        android:id="@+id/pressure_label"
+        style="@style/ExtraDetailLabel"
+        android:layout_marginStart="@dimen/small_space"
+        android:drawableStart="@drawable/ic_pressure"
+        android:drawablePadding="@dimen/small_space"
+        android:text="@string/pressure_label"
+        app:layout_constraintBottom_toTopOf="@+id/humidity_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wind_label" />
+
+    <!-- Pressure measurement -->
+    <TextView
+        android:id="@+id/pressure"
+        style="@style/ExtraDetailsValue"
+        android:layout_marginStart="@dimen/small_space"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure_label"
+        app:layout_constraintStart_toStartOf="@+id/horizontal_middle"
+        app:layout_constraintTop_toTopOf="@+id/pressure_label"
+        tools:text="995.5 hPa" />
+
+    <!-- Wind label -->
+    <TextView
+        android:id="@+id/wind_label"
+        style="@style/ExtraDetailLabel"
+        android:layout_marginTop="@dimen/large_space"
+        android:drawableStart="@drawable/ic_windy"
+        android:drawablePadding="@dimen/small_space"
+        android:text="@string/wind_label"
+        app:layout_constraintBottom_toTopOf="@+id/pressure_label"
+        app:layout_constraintStart_toStartOf="@+id/pressure_label"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <!-- Wind measurement -->
+    <TextView
+        android:id="@+id/wind_measurement"
+        style="@style/ExtraDetailsValue"
+        android:layout_marginStart="@dimen/small_space"
+        app:layout_constraintBottom_toBottomOf="@+id/wind_label"
+        app:layout_constraintStart_toStartOf="@+id/horizontal_middle"
+        app:layout_constraintTop_toTopOf="@+id/wind_label"
+        tools:text="4.17 km/h NW" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,8 +14,8 @@
     <!-- Fixed size for list icons -->
     <dimen name="list_icon_size">40dp</dimen>
 
-    <!-- Text size of the primary weather info text such as City name & Today's date -->
-    <dimen name="primary_normal_text_size">20sp</dimen>
+    <!-- Text size of weather info text such as City name & Today's date -->
+    <dimen name="weather_info_text_size">20sp</dimen>
 
     <!-- We use "dp" here rather than "sp" because this is already large enough font size!
         going larger will cause lots of problems in the user interface -->

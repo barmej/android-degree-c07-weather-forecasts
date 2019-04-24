@@ -13,6 +13,7 @@ import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
 import com.barmej.weatherforecasts.entity.Forecast;
 import com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment;
+import com.barmej.weatherforecasts.fragments.SecondaryWeatherInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create a new instance from PrimaryWeatherInfo fragment
+        // Create a new instance from SecondaryWeatherInfoFragment fragment
         PrimaryWeatherInfoFragment primaryWeatherInfoFragment = new PrimaryWeatherInfoFragment();
+
+        // Create a new instance from SecondaryWeatherInfoFragment fragment
+        SecondaryWeatherInfoFragment secondaryWeatherInfoFragment = new SecondaryWeatherInfoFragment();
 
         // Get an instance of FragmentManager and assign it to mFragmentManager variable
         mFragmentManager = getSupportFragmentManager();
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         // Add the fragment into the layout by adding it in the FrameLayout with id header
-        fragmentTransaction.add(R.id.header, primaryWeatherInfoFragment);
+        fragmentTransaction.add(R.id.header, secondaryWeatherInfoFragment);
 
         // Commit the changes
         fragmentTransaction.commit();

@@ -19,5 +19,22 @@
         <item name="background">@android:color/transparent</item>
     </style>
 
+    <!-- Style used in the SecondaryWeatherInfoFragment for TextViews showing the labels of
+         the weather information -->
+    <style name="ExtraDetailLabel" parent="@style/TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Style used in the SecondaryWeatherInfoFragment for TextViews showing the values
+         of the weather information -->
+    <style name="ExtraDetailsValue" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/weather_info_text_size</item>
+    </style>
 
 </resources>
