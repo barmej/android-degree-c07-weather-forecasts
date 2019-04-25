@@ -7,6 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     android:scrollbars="none"
     tools:background="@drawable/shape_main_evening_background"
@@ -22,6 +23,23 @@
             android:layout_width="match_parent"
             android:layout_height="220dp">
 
+            <!-- ViewPager that allow the navigate between fragments by swipe left and right -->
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp" />
+
+            <!-- TabLayout to show indicator of the current selected page in the ViewPager -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="16dp"
+                app:tabBackground="@drawable/selector_pager_indicator"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
 
         </FrameLayout>
 

@@ -13,4 +13,9 @@
     <!-- Forecast's lists rounded shape color -->
     <color name="background_transparent_black">#55000000</color>
 
+    <!-- ViewPager indicator colors -->
+    <color name="indicator_selected">#FFFFFFFF</color>
+    <color name="indicator_default">#77CCCCCC</color>
+
+
 </resources>
