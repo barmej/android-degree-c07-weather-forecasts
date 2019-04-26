@@ -88,7 +88,7 @@ public final class NetworkUtils {
     }
 
     /**
-     * Builds the URL used to talk to the weather server using a location. This location is based
+     * Builds the URL to get the weather data using a location. This location is based
      * on the query capabilities of the weather provider that we are using.
      *
      * @param context  context object to use for reading string resources

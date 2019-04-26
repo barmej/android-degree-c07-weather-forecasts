@@ -1,15 +1,15 @@
 package com.barmej.weatherforecasts;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -102,18 +102,40 @@ public class MainActivity extends AppCompatActivity {
      * Request current weather data
      */
     private void requestWeatherInfo() {
-        // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
-        URL weatherRequestUrl = NetworkUtils.getWeatherUrl(MainActivity.this);
-
-        String weatherJsonResponse = null;
-        try {
-            // Use the URL to retrieve the JSON
-            weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new WeatherDataPullTask().execute();
     }
 
+    /**
+     * AsyncTask to execute data pulling request off the main thread
+     */
+    class WeatherDataPullTask extends AsyncTask<Void, Integer, String> {
+
+        protected String doInBackground(Void... v) {
+
+            // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
+            URL weatherRequestUrl = NetworkUtils.getWeatherUrl(MainActivity.this);
+
+            String weatherJsonResponse = null;
+            try {
+                // Use the URL to retrieve the JSON
+                weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return weatherJsonResponse;
+
+        }
+
+        protected void onPostExecute(String weatherJsonResponse) {
+            Toast.makeText(MainActivity.this, "Request Operation Completed!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    /**
+     * FragmentPagerAdapter class to create and manage header fragments for the ViewPager
+     */
     class HeaderFragmentAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragments;
@@ -141,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public @NonNull Object instantiateItem(@NonNull ViewGroup container, int position) {
-             // Update the array list to refer to the instantiated fragments
+            // Update the array list to refer to the instantiated fragments
             Fragment fragment = (Fragment) super.instantiateItem(container, position);
             fragments.add(position,fragment);
             return fragment;
