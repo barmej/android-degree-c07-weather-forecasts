@@ -10,6 +10,12 @@
       - Used by WeatherUtils           -
       - - - - - - - - - - - - - - - - -->
 
+    <!-- HighLow Temperature format -->
+    <string name="high_low_temperature">
+        <xliff:g id="high_temp">%1$s</xliff:g>\u00B0 /
+        <xliff:g id="low_temp">%2$s</xliff:g>\u00B0
+    </string>
+
     <!-- Temperature format -->
     <string name="format_temperature">
         <xliff:g id="temp">%1.0f</xliff:g>\u00B0

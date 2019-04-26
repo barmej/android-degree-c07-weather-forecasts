@@ -115,10 +115,10 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         /* High (max) & Low (min) temperature temperature *************************************** */
 
         // Read high temperature from weather object
-        String highTemperatureString = "19°";
+        String highTemperatureString = "19";
 
         // Read low temperature from weather object
-        String lowTemperatureString = "10°";
+        String lowTemperatureString = "10";
 
         // Display high/low temperature
         mHighLowTempTextView.setText(getString(R.string.high_low_temperature, highTemperatureString, lowTemperatureString));

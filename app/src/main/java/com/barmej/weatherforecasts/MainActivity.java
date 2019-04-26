@@ -19,8 +19,11 @@ import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
 import com.barmej.weatherforecasts.entity.Forecast;
 import com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment;
 import com.barmej.weatherforecasts.fragments.SecondaryWeatherInfoFragment;
+import com.barmej.weatherforecasts.network.NetworkUtils;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +93,25 @@ public class MainActivity extends AppCompatActivity {
         mHoursForecastAdapter.updateData(hourForecasts);
         mDaysForecastsAdapter.updateData(daysForecasts);
 
+        // Request current weather data
+        requestWeatherInfo();
+
+    }
+
+    /**
+     * Request current weather data
+     */
+    private void requestWeatherInfo() {
+        // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
+        URL weatherRequestUrl = NetworkUtils.getWeatherUrl(MainActivity.this);
+
+        String weatherJsonResponse = null;
+        try {
+            // Use the URL to retrieve the JSON
+            weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     class HeaderFragmentAdapter extends FragmentPagerAdapter {
@@ -126,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 
 }

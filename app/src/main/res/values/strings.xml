@@ -1,8 +1,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Weather Forecasts</string>
 
-    <string name="high_low_temperature" translatable="false">%1$s / %2$s</string>
-
     <!-- Secondary weather info labels -->
     <string name="wind_label">Wind</string>
     <string name="pressure_label">Pressure</string>
@@ -11,6 +9,12 @@
     <!-- - - - - - - - - - - - - - - - -
       - Used by WeatherUtils           -
       - - - - - - - - - - - - - - - - -->
+
+    <!-- HighLow Temperature format -->
+    <string name="high_low_temperature">
+        <xliff:g id="high_temp">%1$s</xliff:g>\u00B0 /
+        <xliff:g id="low_temp">%2$s</xliff:g>\u00B0
+    </string>
 
     <!-- Temperature format -->
     <string name="format_temperature">
@@ -39,5 +43,11 @@
         <xliff:g id="humidity">%1.0f</xliff:g> %%
     </string>
 
+
+    <!-- OpenWeatherMap API Key -->
+    <string name="api_key" translatable="false">ae5e7114f7eec266797a8c8a796c5144</string>
+
+    <!-- Default location preference -->
+    <string name="pref_location_default" translatable="false">State of Kuwait</string>
 
 </resources>
