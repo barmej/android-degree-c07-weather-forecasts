@@ -114,7 +114,7 @@ public class OpenWeatherDataParser {
         JSONObject weatherObject = weatherJson.getJSONArray(OWM_WEATHER).getJSONObject(0);
 
         // Temperatures are sent by OpenWeatherMap in a child object called Main
-        JSONObject mainInfo = weatherJson.getJSONObject(OWM_MAIN);
+        JSONObject mainObject = weatherJson.getJSONObject(OWM_MAIN);
 
         // Wind speed and direction are wrapped in a Wind object
         JSONObject windObject = weatherJson.getJSONObject(OWM_WIND);
@@ -123,11 +123,11 @@ public class OpenWeatherDataParser {
         WeatherInfo weatherInfo = new WeatherInfo();
         weatherInfo.setDt(weatherJson.getLong(OWM_DATE));
         Main main = new Main();
-        main.setTemp(mainInfo.getDouble(OWM_TEMPERATURE));
-        main.setTempMax(mainInfo.getDouble(OWM_MAX));
-        main.setTempMin(mainInfo.getDouble(OWM_MIN));
-        main.setHumidity(mainInfo.getInt(OWM_HUMIDITY));
-        main.setPressure(mainInfo.getLong(OWM_PRESSURE));
+        main.setTemp(mainObject.getDouble(OWM_TEMPERATURE));
+        main.setTempMax(mainObject.getDouble(OWM_MAX));
+        main.setTempMin(mainObject.getDouble(OWM_MIN));
+        main.setHumidity(mainObject.getInt(OWM_HUMIDITY));
+        main.setPressure(mainObject.getLong(OWM_PRESSURE));
         weatherInfo.setMain(main);
         Wind wind = new Wind();
         wind.setSpeed(windObject.getDouble(OWM_WINDSPEED));

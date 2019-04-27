@@ -119,18 +119,18 @@ public class MainActivity extends AppCompatActivity {
             // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
             URL weatherRequestUrl = NetworkUtils.getWeatherUrl(MainActivity.this);
 
-            WeatherInfo weatherInfo;
+            WeatherInfo weatherInfo = null;
+
             try {
                 // Use the URL to retrieve the JSON
                 String weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
                 // Get WeatherInfo object from json response
                 weatherInfo = OpenWeatherDataParser.getWeatherInfoObjectFromJson(weatherJsonResponse);
-                return weatherInfo;
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
-            return null;
+            return weatherInfo;
 
         }
 
