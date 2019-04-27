@@ -12,8 +12,8 @@
 
     <!-- HighLow Temperature format -->
     <string name="high_low_temperature">
-        <xliff:g id="high_temp">%1$s</xliff:g>\u00B0 /
-        <xliff:g id="low_temp">%2$s</xliff:g>\u00B0
+        <xliff:g id="high_temp">%1$1.0f</xliff:g>\u00B0 /
+        <xliff:g id="low_temp">%2$1.0f</xliff:g>\u00B0
     </string>
 
     <!-- Temperature format -->
@@ -42,6 +42,29 @@
     <string name="format_humidity">
         <xliff:g id="humidity">%1.0f</xliff:g> %%
     </string>
+
+    <!-- - - - - - - - - - - - - - - - -
+      - Wind Directions                -
+      - - - - - - - - - - - - - - - - -->
+    <string name="unknown_direction">غير معروف</string>
+    <string name="north">شمال</string>
+    <string name="east">شرق</string>
+    <string name="west">غرب</string>
+    <string name="south">جنوب</string>
+    <string name="north_east">شمال شرق</string>
+    <string name="south_east">جنوب شرق</string>
+    <string name="north_west">شمال غرب</string>
+    <string name="south_west">جنوب غرب</string>
+
+    <!-- - - - - - - - - - - - - - -
+      - Used by CustomDateUtils          -
+      - - - - - - - - - - - - - - -->
+
+    <!-- For labelling today -->
+    <string name="today">اليوم</string>
+
+    <!-- For labelling tomorrow -->
+    <string name="tomorrow">غداً</string>
 
 
 </resources>

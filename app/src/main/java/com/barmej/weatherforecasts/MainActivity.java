@@ -3,7 +3,6 @@ package com.barmej.weatherforecasts;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
      */
     class WeatherDataPullTask extends AsyncTask<Void, Integer, WeatherInfo> {
 
+        @Override
         protected WeatherInfo doInBackground(Void... v) {
 
             // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
@@ -134,8 +134,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        @Override
         protected void onPostExecute(WeatherInfo weatherInfo) {
-            Toast.makeText(MainActivity.this, "Request Operation Completed!", Toast.LENGTH_SHORT).show();
+            if (weatherInfo != null) {
+                // Presented the data in the ViewPager fragments
+                mHeaderFragmentAdapter.updateData(weatherInfo);
+            }
         }
 
     }
@@ -176,9 +180,17 @@ public class MainActivity extends AppCompatActivity {
             return fragment;
         }
 
+        /**
+         * Update data presented in the fragments of the ViewPager
+         *
+         * @param weatherInfo WeatherInfo object that contain the new data
+         */
+        void updateData(WeatherInfo weatherInfo) {
+            ((PrimaryWeatherInfoFragment) fragments.get(0)).updateWeatherInfo(weatherInfo);
+            ((SecondaryWeatherInfoFragment) fragments.get(1)).updateWeatherInfo(weatherInfo);
+        }
+
     }
-
-
 
 
 }

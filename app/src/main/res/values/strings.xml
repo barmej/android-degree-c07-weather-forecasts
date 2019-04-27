@@ -12,8 +12,8 @@
 
     <!-- HighLow Temperature format -->
     <string name="high_low_temperature">
-        <xliff:g id="high_temp">%1$s</xliff:g>\u00B0 /
-        <xliff:g id="low_temp">%2$s</xliff:g>\u00B0
+        <xliff:g id="high_temp">%1$1.0f</xliff:g>\u00B0 /
+        <xliff:g id="low_temp">%2$1.0f</xliff:g>\u00B0
     </string>
 
     <!-- Temperature format -->
@@ -43,6 +43,28 @@
         <xliff:g id="humidity">%1.0f</xliff:g> %%
     </string>
 
+    <!-- - - - - - - - - - - - - - - - -
+      - Wind Directions                -
+      - - - - - - - - - - - - - - - - -->
+    <string name="unknown_direction">Unknown Direction</string>
+    <string name="north">N</string>
+    <string name="east">E</string>
+    <string name="west">W</string>
+    <string name="south">S</string>
+    <string name="north_east">NE</string>
+    <string name="south_east">SE</string>
+    <string name="north_west">NW</string>
+    <string name="south_west">NE</string>
+
+    <!-- - - - - - - - - - - - - - -
+      - Used by CustomDateUtils          -
+      - - - - - - - - - - - - - - -->
+
+    <!-- For labelling today -->
+    <string name="today">Today</string>
+
+    <!-- For labelling tomorrow -->
+    <string name="tomorrow">Tomorrow</string>
 
     <!-- OpenWeatherMap API Key -->
     <string name="api_key" translatable="false">ae5e7114f7eec266797a8c8a796c5144</string>

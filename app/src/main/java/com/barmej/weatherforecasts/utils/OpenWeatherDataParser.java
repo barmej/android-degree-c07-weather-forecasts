@@ -121,7 +121,7 @@ public class OpenWeatherDataParser {
 
         // Get data from Json and assign it to Java object
         WeatherInfo weatherInfo = new WeatherInfo();
-        weatherInfo.setDt(weatherJson.getLong(OWM_DATE) * 1000);
+        weatherInfo.setDt(weatherJson.getLong(OWM_DATE));
         Main main = new Main();
         main.setTemp(mainInfo.getDouble(OWM_TEMPERATURE));
         main.setTempMax(mainInfo.getDouble(OWM_MAX));

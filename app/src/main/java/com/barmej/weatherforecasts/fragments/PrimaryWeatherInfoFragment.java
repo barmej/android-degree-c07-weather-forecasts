@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.barmej.weatherforecasts.R;
+import com.barmej.weatherforecasts.entity.WeatherInfo;
+import com.barmej.weatherforecasts.utils.CustomDateUtils;
+import com.barmej.weatherforecasts.utils.WeatherUtils;
 
 /**
  * A fragment that show primary weather information like high and low temperatures, weather icon,
@@ -26,6 +29,8 @@ public class PrimaryWeatherInfoFragment extends Fragment {
     private TextView mDescriptionTextView;
     private TextView mTemperatureTextView;
     private TextView mHighLowTempTextView;
+
+    private WeatherInfo mWeatherInfo;
 
     /**
      * Required empty public constructor
@@ -66,16 +71,29 @@ public class PrimaryWeatherInfoFragment extends Fragment {
 
     }
 
+    /**
+     * Update weather info object and reflect the updated data on UI
+     *
+     * @param weatherInfo WeatherInfo object that contain the new data
+     */
+    public void updateWeatherInfo(WeatherInfo weatherInfo) {
+        mWeatherInfo = weatherInfo;
+        showWeatherInfo();
+    }
 
     /**
      * This method used to show current weather info inside user interface views
      */
     private void showWeatherInfo() {
 
+        if (mWeatherInfo == null) {
+            return;
+        }
+
         /* Weather Icon ************************************************************************* */
 
         // Get the weather icon resource id based on icon string passed from the api
-        int weatherImageId = R.drawable.ic_clear_sky;
+        int weatherImageId = WeatherUtils.getWeatherIcon(mWeatherInfo.getWeather().get(0).getIcon());
 
         // Display weather condition icon
         mIconImageView.setImageResource(weatherImageId);
@@ -83,7 +101,7 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         /* Current city ************************************************************************* */
 
         // Read date from weather info object
-        String cityName = "State of Kuwait";
+        String cityName = mWeatherInfo.getName();
 
         // Display city name
         mCityNameTextView.setText(cityName);
@@ -91,7 +109,7 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         /* Weather Date ************************************************************************* */
 
         // Get human readable string using getFriendlyDateString utility method and display it
-        String dateString = "Wed, 24 April";
+        String dateString = CustomDateUtils.getFriendlyDateString(getContext(), mWeatherInfo.getDt(), false);
 
         /* Display friendly date string */
         mDateTextView.setText(dateString);
@@ -99,7 +117,7 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         /* Weather Description ****************************************************************** */
 
         // Get weather condition description
-        String description = "Cloudy";
+        String description = mWeatherInfo.getWeather().get(0).getDescription();
 
         // Display weather description
         mDescriptionTextView.setText(description);
@@ -107,7 +125,7 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         /* Temperature ************************************************************************** */
 
         // Read temperature from weather object
-        String temperatureString = "17°";
+        String temperatureString = getString(R.string.format_temperature, mWeatherInfo.getMain().getTemp());
 
         // Display high temperature
         mTemperatureTextView.setText(temperatureString);
@@ -115,13 +133,13 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         /* High (max) & Low (min) temperature temperature *************************************** */
 
         // Read high temperature from weather object
-        String highTemperatureString = "19";
+        double highTemperature = mWeatherInfo.getMain().getTempMax();
 
         // Read low temperature from weather object
-        String lowTemperatureString = "10";
+        double lowTemperature = mWeatherInfo.getMain().getTempMin();
 
         // Display high/low temperature
-        mHighLowTempTextView.setText(getString(R.string.high_low_temperature, highTemperatureString, lowTemperatureString));
+        mHighLowTempTextView.setText(getString(R.string.high_low_temperature, highTemperature, lowTemperature));
 
     }
 

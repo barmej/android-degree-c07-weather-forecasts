@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.barmej.weatherforecasts.R;
+import com.barmej.weatherforecasts.entity.WeatherInfo;
+import com.barmej.weatherforecasts.utils.WeatherUtils;
 
 /**
  * A fragment that show extra weather information like humidity, pressure, wind speed and direction
@@ -21,6 +23,8 @@ public class SecondaryWeatherInfoFragment extends Fragment {
     private TextView humidityTextView;
     private TextView pressureTextView;
     private TextView windTextView;
+
+    private WeatherInfo mWeatherInfo;
 
     /**
      * Required empty public constructor
@@ -59,14 +63,28 @@ public class SecondaryWeatherInfoFragment extends Fragment {
     }
 
     /**
+     * Update weather info object and reflect the updated data on UI
+     *
+     * @param weatherInfo WeatherInfo object that contain the new data
+     */
+    public void updateWeatherInfo(WeatherInfo weatherInfo) {
+        mWeatherInfo = weatherInfo;
+        showWeatherInfo();
+    }
+
+    /**
      * This method used to show current weather info inside user interface views
      */
     private void showWeatherInfo() {
 
+        if (mWeatherInfo == null) {
+            return;
+        }
+
         /* Humidity ***************************************************************************** */
 
         // Read humidity from weather object
-        float humidity = 80;
+        float humidity = mWeatherInfo.getMain().getHumidity();
 
         // Append % symbol to the humidity value and get it as a String
         String humidityString = getString(R.string.format_humidity, humidity);
@@ -75,12 +93,13 @@ public class SecondaryWeatherInfoFragment extends Fragment {
         humidityTextView.setText(humidityString);
 
         /* Wind speed and direction ************************************************************* */
+
         // Read wind speed & direction from weather object
-        double windSpeed = 4.17;
-        String windDirection = "NW";
+        double windSpeed = mWeatherInfo.getWind().getSpeed();
+        double windDirection = mWeatherInfo.getWind().getDeg();
 
         // Get formatted wind speed & direction text
-        String windString = getString(R.string.format_wind_kmh, windSpeed, windDirection);
+        String windString = WeatherUtils.getFormattedWind(getContext(), windSpeed, windDirection);
 
         // Display wind speed & direction text
         windTextView.setText(windString);
@@ -88,7 +107,7 @@ public class SecondaryWeatherInfoFragment extends Fragment {
         /* Pressure ***************************************************************************** */
 
         // Read pressure from weather object
-        double pressure = 995.5;
+        double pressure = mWeatherInfo.getMain().getPressure();
 
         // Append pressure unit to the pressure value and return it as a String
         String pressureString = getString(R.string.format_pressure, pressure);
