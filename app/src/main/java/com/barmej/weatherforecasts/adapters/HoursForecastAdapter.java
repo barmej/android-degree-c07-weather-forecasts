@@ -10,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.barmej.weatherforecasts.entity.Forecast;
 import com.barmej.weatherforecasts.R;
+import com.barmej.weatherforecasts.entity.Forecast;
+import com.barmej.weatherforecasts.utils.CustomDateUtils;
+import com.barmej.weatherforecasts.utils.WeatherUtils;
 
 import java.util.List;
 
@@ -70,10 +72,12 @@ public class HoursForecastAdapter extends RecyclerView.Adapter<HoursForecastAdap
     @Override
     public void onBindViewHolder(@NonNull ForecastAdapterViewHolder forecastAdapterViewHolder, int position) {
 
+        Forecast forecast = mForecasts.get(position);
+
         /* Weather Icon ************************************************************************* */
 
         // Get the weather icon resource id based on icon string passed from the api
-        int weatherImageId = R.drawable.ic_clear_sky;
+        int weatherImageId = WeatherUtils.getWeatherIcon(forecast.getWeather().get(0).getIcon());
 
         // Display weather condition icon
         forecastAdapterViewHolder.iconImageView.setImageResource(weatherImageId);
@@ -81,7 +85,7 @@ public class HoursForecastAdapter extends RecyclerView.Adapter<HoursForecastAdap
         /* Weather Clock Time ******************************************************************* */
 
         // Get human readable string using getHourOfDayUTCTime utility method and display it
-        String hourClockString = "9:00 AM";
+        String hourClockString = CustomDateUtils.getHourOfDayUTCTime(forecast.getDt());
 
         // Display clock hour
         forecastAdapterViewHolder.timeTextView.setText(hourClockString);
@@ -89,7 +93,10 @@ public class HoursForecastAdapter extends RecyclerView.Adapter<HoursForecastAdap
         /* High (max) temperature *************************************************************** */
 
         // Read high temperature from forecast object
-        String highTemperatureString = "19°";
+        double highTemperature = forecast.getMain().getTempMax();
+
+        // Get formatted high temperature string
+        String highTemperatureString = mContext.getString(R.string.format_temperature, highTemperature);
 
         // Display high temperature
         forecastAdapterViewHolder.temperatureTextView.setText(highTemperatureString);

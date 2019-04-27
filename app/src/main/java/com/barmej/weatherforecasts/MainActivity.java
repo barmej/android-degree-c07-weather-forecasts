@@ -15,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
-import com.barmej.weatherforecasts.entity.Forecast;
+import com.barmej.weatherforecasts.entity.ForecastLists;
 import com.barmej.weatherforecasts.entity.WeatherInfo;
 import com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment;
 import com.barmej.weatherforecasts.fragments.SecondaryWeatherInfoFragment;
@@ -76,29 +76,11 @@ public class MainActivity extends AppCompatActivity {
         mDaysForecastRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDaysForecastRecyclerView.setAdapter(mDaysForecastsAdapter);
 
-        // Add dummy empty objects to hours forecasts list
-        List<Forecast> hourForecasts = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            hourForecasts.add(new Forecast());
-        }
-
-        // Add dummy empty objects to days forecasts list
-        List<List<Forecast>> daysForecasts = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            List<Forecast> hoursForecasts = new ArrayList<>();
-            for (int j = 0; j < 8; j++) {
-                hourForecasts.add(new Forecast());
-            }
-            daysForecasts.add(hoursForecasts);
-        }
-
-        // Show forecasts lists
-        mHoursForecastAdapter.updateData(hourForecasts);
-        mDaysForecastsAdapter.updateData(daysForecasts);
-
         // Request current weather data
         requestWeatherInfo();
 
+        // Request forecasts data
+        requestForecastsInfo();
     }
 
     /**
@@ -106,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private void requestWeatherInfo() {
         new WeatherDataPullTask().execute();
+    }
+
+    /**
+     * Request forecasts data
+     */
+    private void requestForecastsInfo() {
+        new ForecastsDataPullTask().execute();
     }
 
     /**
@@ -142,6 +131,42 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    class ForecastsDataPullTask extends AsyncTask<Void, Void, ForecastLists> {
+
+        protected ForecastLists doInBackground(Void... v) {
+
+            // The getForecastsUrl method will return the URL that we need to get the JSON for the upcoming forecasts
+            URL forecastsRequestUrl = NetworkUtils.getForecastUrl(MainActivity.this);
+
+            ForecastLists forecastLists = null;
+            try {
+                // Use the URL to retrieve the JSON
+                String forecastsJsonResponse = NetworkUtils.getResponseFromHttpUrl(forecastsRequestUrl);
+                // Get ForecastLists object from json response
+                forecastLists = OpenWeatherDataParser.getForecastsDataFromJson(forecastsJsonResponse);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return forecastLists;
+
+        }
+
+
+        protected void onPostExecute(ForecastLists forecastLists) {
+
+            if (forecastLists != null
+                    && forecastLists.getHoursForecasts() != null
+                    && forecastLists.getDaysForecasts() != null) {
+                mHoursForecastAdapter.updateData(forecastLists.getHoursForecasts());
+                mDaysForecastsAdapter.updateData(forecastLists.getDaysForecasts());
+            }
+
+        }
     }
 
     /**
