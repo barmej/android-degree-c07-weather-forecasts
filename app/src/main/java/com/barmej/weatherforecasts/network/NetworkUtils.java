@@ -4,15 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.barmej.weatherforecasts.R;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
-import java.util.Scanner;
 
 
 /**
@@ -72,6 +71,72 @@ public final class NetworkUtils {
     private static final String METRIC = "metric";
     private static final String IMPERIAL = "imperial";
 
+    /**
+     * Object used for the purpose of synchronize lock
+     */
+    private static final Object LOCK = new Object();
+
+
+    /**
+     * Instance of this class for Singleton
+     */
+    private static NetworkUtils sInstance;
+
+    /**
+     * Instance of the application context
+     */
+    private Context mContext;
+
+    /**
+     * Instance of Volley Request Queue
+     */
+    private RequestQueue mRequestQueue;
+
+
+    /**
+     * @param context Context to use for some initializations
+     */
+    private NetworkUtils(Context context) {
+        mContext = context.getApplicationContext();
+        mRequestQueue = getRequestQueue();
+    }
+
+    /**
+     * Method used to get an instance of NetworkUtils class
+     *
+     * @param context Context to use for some initializations
+     * @return an instance of NetworkUtils class
+     */
+    public static synchronized NetworkUtils getInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                if (sInstance == null) sInstance = new NetworkUtils(context);
+            }
+        }
+        return sInstance;
+    }
+
+    /**
+     * Get an instance of Volley RequestQueue
+     *
+     * @return an instance of Volley RequestQueue
+     */
+    private RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            // getApplicationContext() is key, it keeps you from leaking the
+            // Activity or BroadcastReceiver if you pass it instead of application context
+            mRequestQueue = Volley.newRequestQueue(mContext);
+        }
+        return mRequestQueue;
+    }
+
+    /**
+     * @param request volley request to add to RequestQueue
+     * @param <T>     The passed-in request
+     */
+    public <T> void addToRequestQueue(Request<T> request) {
+        getRequestQueue().add(request);
+    }
 
     /**
      * @return the url for the weather endpoint
@@ -111,34 +176,6 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    /**
-     * This method returns the entire result from the HTTP response as String
-     *
-     * @param url The URL to fetch the HTTP response from.
-     * @return The contents of the HTTP response, null if no response
-     * @throws IOException Related to network and stream reading
-     */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestMethod("GET");
-        urlConnection.connect();
-        try {
-            InputStream in = urlConnection.getInputStream();
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-            boolean hasInput = scanner.hasNext();
-            String response = null;
-            if (hasInput) {
-                response = scanner.next();
-            }
-            scanner.close();
-            Log.d(TAG, "Response: " + response);
-            return response;
-        } finally {
-            urlConnection.disconnect();
         }
     }
 

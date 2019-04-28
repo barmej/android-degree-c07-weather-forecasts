@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
 import com.barmej.weatherforecasts.entity.ForecastLists;
@@ -40,17 +38,30 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * FragmentManager to be used in ViewPager FragmentAdapter
+     */
     private FragmentManager mFragmentManager;
+
+    /**
+     * ViewPage & FragmentPagerAdapter to show the HeaderFragments
+     */
     private HeaderFragmentAdapter mHeaderFragmentAdapter;
     private ViewPager mViewPager;
 
+    /**
+     * RecyclerViews & it's Adapters to show forecasts lists
+     */
     private HoursForecastAdapter mHoursForecastAdapter;
     private DaysForecastAdapter mDaysForecastsAdapter;
 
     private RecyclerView mHoursForecastsRecyclerView;
     private RecyclerView mDaysForecastRecyclerView;
 
-    private RequestQueue mRequestQueue;
+    /**
+     * An instance of NetworkUtils for all network related operations
+     */
+    private NetworkUtils mNetworkUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
         mDaysForecastRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDaysForecastRecyclerView.setAdapter(mDaysForecastsAdapter);
 
-        // Instantiate the RequestQueue.
-        mRequestQueue = Volley.newRequestQueue(this);
+        // Get instance of NetworkUtils
+        mNetworkUtils = NetworkUtils.getInstance(this);
 
         // Request current weather data
         requestWeatherInfo();
@@ -125,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Add the request to the RequestQueue.
-        mRequestQueue.add(weatherInfoRequest);
+        mNetworkUtils.addToRequestQueue(weatherInfoRequest);
     }
 
     /**
@@ -163,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Add the request to the RequestQueue.
-        mRequestQueue.add(forecastsListRequest);
+        mNetworkUtils.addToRequestQueue(forecastsListRequest);
 
     }
 
