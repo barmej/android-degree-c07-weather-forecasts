@@ -30,6 +30,7 @@ public final class WeatherUtils {
 
         String direction = context.getString(R.string.unknown_direction);
         if (degrees == Integer.MAX_VALUE) {
+            // Leave the unknown value
             direction = context.getString(R.string.unknown_direction);
         } else if (degrees >= 337.5 || degrees < 22.5) {
             direction = context.getString(R.string.north);
