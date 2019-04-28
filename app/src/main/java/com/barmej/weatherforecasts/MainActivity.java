@@ -1,8 +1,8 @@
 package com.barmej.weatherforecasts;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
 import com.barmej.weatherforecasts.entity.ForecastLists;
@@ -25,8 +31,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mHoursForecastsRecyclerView;
     private RecyclerView mDaysForecastRecyclerView;
+
+    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         mDaysForecastRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDaysForecastRecyclerView.setAdapter(mDaysForecastsAdapter);
 
+        // Instantiate the RequestQueue.
+        mRequestQueue = Volley.newRequestQueue(this);
+
         // Request current weather data
         requestWeatherInfo();
 
@@ -87,86 +96,74 @@ public class MainActivity extends AppCompatActivity {
      * Request current weather data
      */
     private void requestWeatherInfo() {
-        new WeatherDataPullTask().execute();
+
+        // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
+        String weatherRequestUrl = NetworkUtils.getWeatherUrl(this).toString();
+
+        // Request a string response from the provided URL.
+        StringRequest weatherInfoRequest = new StringRequest(Request.Method.GET, weatherRequestUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        WeatherInfo weatherInfo = null;
+                        try {
+                            // Get WeatherInfo object from json response
+                            weatherInfo = OpenWeatherDataParser.getWeatherInfoObjectFromJson(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (weatherInfo != null) {
+                            mHeaderFragmentAdapter.updateData(weatherInfo);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        mRequestQueue.add(weatherInfoRequest);
     }
 
     /**
      * Request forecasts data
      */
     private void requestForecastsInfo() {
-        new ForecastsDataPullTask().execute();
-    }
 
-    /**
-     * AsyncTask to execute data pulling request off the main thread
-     */
-    class WeatherDataPullTask extends AsyncTask<Void, Integer, WeatherInfo> {
+        // The getForecastsUrl method will return the URL that we need to get the JSON for the upcoming forecasts
+        String forecastsRequestUrl = NetworkUtils.getForecastUrl(MainActivity.this).toString();
 
-        @Override
-        protected WeatherInfo doInBackground(Void... v) {
-
-            // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
-            URL weatherRequestUrl = NetworkUtils.getWeatherUrl(MainActivity.this);
-
-            WeatherInfo weatherInfo = null;
-
-            try {
-                // Use the URL to retrieve the JSON
-                String weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
-                // Get WeatherInfo object from json response
-                weatherInfo = OpenWeatherDataParser.getWeatherInfoObjectFromJson(weatherJsonResponse);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
+        // Request a string response from the provided URL.
+        StringRequest forecastsListRequest = new StringRequest(Request.Method.GET, forecastsRequestUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ForecastLists forecastLists = null;
+                        try {
+                            // Get ForecastLists object from json response
+                            forecastLists = OpenWeatherDataParser.getForecastsDataFromJson(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (forecastLists != null
+                                && forecastLists.getHoursForecasts() != null
+                                && forecastLists.getDaysForecasts() != null) {
+                            mHoursForecastAdapter.updateData(forecastLists.getHoursForecasts());
+                            mDaysForecastsAdapter.updateData(forecastLists.getDaysForecasts());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        });
 
-            return weatherInfo;
+        // Add the request to the RequestQueue.
+        mRequestQueue.add(forecastsListRequest);
 
-        }
-
-        @Override
-        protected void onPostExecute(WeatherInfo weatherInfo) {
-            if (weatherInfo != null) {
-                // Presented the data in the ViewPager fragments
-                mHeaderFragmentAdapter.updateData(weatherInfo);
-            }
-        }
-
-    }
-
-    class ForecastsDataPullTask extends AsyncTask<Void, Void, ForecastLists> {
-
-        protected ForecastLists doInBackground(Void... v) {
-
-            // The getForecastsUrl method will return the URL that we need to get the JSON for the upcoming forecasts
-            URL forecastsRequestUrl = NetworkUtils.getForecastUrl(MainActivity.this);
-
-            ForecastLists forecastLists = null;
-            try {
-                // Use the URL to retrieve the JSON
-                String forecastsJsonResponse = NetworkUtils.getResponseFromHttpUrl(forecastsRequestUrl);
-                // Get ForecastLists object from json response
-                forecastLists = OpenWeatherDataParser.getForecastsDataFromJson(forecastsJsonResponse);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return forecastLists;
-
-        }
-
-
-        protected void onPostExecute(ForecastLists forecastLists) {
-
-            if (forecastLists != null
-                    && forecastLists.getHoursForecasts() != null
-                    && forecastLists.getDaysForecasts() != null) {
-                mHoursForecastAdapter.updateData(forecastLists.getHoursForecasts());
-                mDaysForecastsAdapter.updateData(forecastLists.getDaysForecasts());
-            }
-
-        }
     }
 
     /**
