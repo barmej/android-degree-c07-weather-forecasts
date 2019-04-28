@@ -46,7 +46,7 @@
     <!-- - - - - - - - - - - - - - - - -
       - Wind Directions                -
       - - - - - - - - - - - - - - - - -->
-    <string name="unknown_direction">Unknown Direction</string>
+    <string name="unknown_direction">Unk. Dir.</string>
     <string name="north">N</string>
     <string name="east">E</string>
     <string name="west">W</string>

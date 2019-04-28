@@ -28,8 +28,10 @@ public final class WeatherUtils {
 
         int windStringFormat = R.string.format_wind_kmh;
 
-        String direction = "Unknown";
-        if (degrees >= 337.5 || degrees < 22.5) {
+        String direction = context.getString(R.string.unknown_direction);
+        if (degrees == Integer.MAX_VALUE) {
+            direction = context.getString(R.string.unknown_direction);
+        } else if (degrees >= 337.5 || degrees < 22.5) {
             direction = context.getString(R.string.north);
         } else if (degrees >= 22.5 && degrees < 67.5) {
             direction = context.getString(R.string.north_east);
@@ -46,7 +48,6 @@ public final class WeatherUtils {
         } else if (degrees >= 292.5 && degrees < 337.5) {
             direction = context.getString(R.string.north_west);
         }
-
         return String.format(context.getString(windStringFormat), windSpeed, direction);
     }
 

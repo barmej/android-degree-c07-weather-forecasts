@@ -104,14 +104,11 @@ public class OpenWeatherDataParser {
     }
 
     /**
-     * @param weatherJsonString response json string we got from OpenWeatherMap weather endpoint
+     * @param weatherJson response json we got from OpenWeatherMap weather endpoint
      * @return WeatherInfo object that carries all the weather information extracted from JSON string
      * @throws JSONException exception that occurs if there is an error happened while parsing JSON
      */
-    public static WeatherInfo getWeatherInfoObjectFromJson(String weatherJsonString) throws JSONException {
-
-        // Convert json string to JSONObject
-        JSONObject weatherJson = new JSONObject(weatherJsonString);
+    public static WeatherInfo getWeatherInfoObjectFromJson(JSONObject weatherJson) throws JSONException {
 
         // Check if there is an error in the json
         if (isError(weatherJson)) {
@@ -139,7 +136,7 @@ public class OpenWeatherDataParser {
         weatherInfo.setMain(main);
         Wind wind = new Wind();
         wind.setSpeed(windObject.getDouble(OWM_WINDSPEED));
-        wind.setDeg(windObject.getLong(OWM_WIND_DIRECTION));
+        wind.setDeg(windObject.has(OWM_WIND_DIRECTION) ? windObject.getLong(OWM_WIND_DIRECTION) : Integer.MAX_VALUE);
         weatherInfo.setWind(wind);
         Weather weather = new Weather();
         weather.setDescription(weatherObject.getString(OWM_WEATHER_DESCRIPTION));
@@ -156,15 +153,12 @@ public class OpenWeatherDataParser {
      * This method parses JSON from a web response and returns a java object contain the forecasts
      * data over various days.
      *
-     * @param forecastJsonString response json string we got from OpenWeatherMap forecast endpoint
+     * @param forecastsJson response json we got from OpenWeatherMap forecast endpoint
      * @return Object of {@link ForecastLists} contains two arrays, the first one for the next 24hrs forecast and the seconds
      * for the next 4 days forecasts
      * @throws JSONException If JSON data cannot be properly parsed
      */
-    public static ForecastLists getForecastsDataFromJson(String forecastJsonString) throws JSONException {
-
-
-        JSONObject forecastsJson = new JSONObject(forecastJsonString);
+    public static ForecastLists getForecastsDataFromJson(JSONObject forecastsJson) throws JSONException {
 
         if (isError(forecastsJson)) {
             return null;

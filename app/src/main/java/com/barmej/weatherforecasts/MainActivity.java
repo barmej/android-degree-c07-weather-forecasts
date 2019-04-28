@@ -17,7 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
@@ -30,6 +30,7 @@ import com.barmej.weatherforecasts.utils.OpenWeatherDataParser;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
         String weatherRequestUrl = NetworkUtils.getWeatherUrl(this).toString();
 
         // Request a string response from the provided URL.
-        StringRequest weatherInfoRequest = new StringRequest(Request.Method.GET, weatherRequestUrl,
-                new Response.Listener<String>() {
+        JsonObjectRequest weatherInfoRequest = new JsonObjectRequest(Request.Method.GET, weatherRequestUrl, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         WeatherInfo weatherInfo = null;
                         try {
                             // Get WeatherInfo object from json response
@@ -136,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
         String forecastsRequestUrl = NetworkUtils.getForecastUrl(MainActivity.this).toString();
 
         // Request a string response from the provided URL.
-        StringRequest forecastsListRequest = new StringRequest(Request.Method.GET, forecastsRequestUrl,
-                new Response.Listener<String>() {
+        JsonObjectRequest forecastsListRequest = new JsonObjectRequest(Request.Method.GET, forecastsRequestUrl, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         ForecastLists forecastLists = null;
                         try {
                             // Get ForecastLists object from json response
