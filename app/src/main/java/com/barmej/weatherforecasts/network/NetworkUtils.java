@@ -97,6 +97,8 @@ public final class NetworkUtils {
      * @param context Context to use for some initializations
      */
     private NetworkUtils(Context context) {
+        // getApplicationContext() is key, it keeps your application safe from leaking the
+        // Activity or BroadcastReceiver if you pass it instead of application context
         mContext = context.getApplicationContext();
         mRequestQueue = getRequestQueue();
     }
@@ -123,8 +125,6 @@ public final class NetworkUtils {
      */
     private RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if you pass it instead of application context
             mRequestQueue = Volley.newRequestQueue(mContext);
         }
         return mRequestQueue;
