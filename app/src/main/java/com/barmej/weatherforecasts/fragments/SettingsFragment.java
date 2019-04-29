@@ -1,5 +1,6 @@
 package com.barmej.weatherforecasts.fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -58,6 +59,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference preference = findPreference(key);
         if (preference != null) {
             setPreferenceSummary(preference);
+        }
+
+        // Set result to notify the MainActivity of the change
+        if (getActivity() != null) {
+            getActivity().setResult(Activity.RESULT_OK);
         }
 
     }

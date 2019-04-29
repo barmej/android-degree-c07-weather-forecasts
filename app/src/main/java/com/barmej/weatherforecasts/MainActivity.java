@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,6 +45,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private static final int REQUEST_SETTINGS = 0;
 
     /**
      * FragmentManager to be used in ViewPager FragmentAdapter
@@ -150,11 +153,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             // Open SettingsActivity
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_SETTINGS);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SETTINGS && resultCode == RESULT_OK) {
+            // Request data again with new location and/or units measurements preferences
+            requestWeatherInfo();
+            requestForecastsInfo();
+        }
     }
 
 

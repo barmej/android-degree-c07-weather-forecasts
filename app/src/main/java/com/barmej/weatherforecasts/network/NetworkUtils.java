@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.barmej.weatherforecasts.R;
+import com.barmej.weatherforecasts.utils.SharedPreferencesHelper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,12 +65,6 @@ public final class NetworkUtils {
      * The FORMAT we want our API to return
      */
     private static final String FORMAT = "json";
-
-    /**
-     * The units constant values
-     */
-    private static final String METRIC = "metric";
-    private static final String IMPERIAL = "imperial";
 
     /**
      * Object used for the purpose of synchronize lock
@@ -173,10 +168,10 @@ public final class NetworkUtils {
     private static URL buildUrl(Context context, String endPoint) {
         Uri.Builder uriBuilder = Uri.parse(BASE_URL + endPoint).buildUpon();
         Uri uri = uriBuilder
-                .appendQueryParameter(QUERY_PARAM, context.getString(R.string.pref_location_default))
-                .appendQueryParameter(FORMAT_PARAM, FORMAT)
-                .appendQueryParameter(UNITS_PARAM, METRIC)
+                .appendQueryParameter(QUERY_PARAM, SharedPreferencesHelper.getPreferredWeatherLocation(context))
+                .appendQueryParameter(UNITS_PARAM, SharedPreferencesHelper.getPreferredMeasurementSystem(context))
                 .appendQueryParameter(LANG_PARAM, Locale.getDefault().getLanguage())
+                .appendQueryParameter(FORMAT_PARAM, FORMAT)
                 .appendQueryParameter(APP_ID_PARAM, context.getString(R.string.api_key))
                 .build();
         try {
