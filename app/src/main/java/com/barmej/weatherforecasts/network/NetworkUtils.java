@@ -138,6 +138,16 @@ public final class NetworkUtils {
         getRequestQueue().add(request);
     }
 
+
+    /**
+     * Cancel all requests of the given tag
+     *
+     * @param tag the tag of the requests we want to cancel
+     */
+    public void cancelRequests(String tag) {
+        getRequestQueue().cancelAll(tag);
+    }
+
     /**
      * @return the url for the weather endpoint
      */

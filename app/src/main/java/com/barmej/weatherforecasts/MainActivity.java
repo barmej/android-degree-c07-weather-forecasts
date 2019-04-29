@@ -1,6 +1,7 @@
 package com.barmej.weatherforecasts;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ import java.util.List;
  * MainActivity that show current weather info, next hours & days forecasts
  */
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
      * FragmentManager to be used in ViewPager FragmentAdapter
@@ -104,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
         requestForecastsInfo();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Cancel ongoing requests
+        mNetworkUtils.cancelRequests(TAG);
+    }
+
     /**
      * Request current weather data
      */
@@ -117,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Weather Request Received");
                         WeatherInfo weatherInfo = null;
                         try {
                             // Get WeatherInfo object from json response
@@ -135,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Set tag to the request
+        weatherInfoRequest.setTag(TAG);
+
         // Add the request to the RequestQueue.
         mNetworkUtils.addToRequestQueue(weatherInfoRequest);
     }
@@ -152,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Forecasts Request Received");
                         ForecastLists forecastLists = null;
                         try {
                             // Get ForecastLists object from json response
@@ -172,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Set tag to the request
+        forecastsListRequest.setTag(TAG);
 
         // Add the request to the RequestQueue.
         mNetworkUtils.addToRequestQueue(forecastsListRequest);
