@@ -1,7 +1,11 @@
 package com.barmej.weatherforecasts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -113,6 +117,46 @@ public class MainActivity extends AppCompatActivity {
         // Cancel ongoing requests
         mNetworkUtils.cancelRequests(TAG);
     }
+
+    /**
+     * This is where we inflate and set up the menu for this Activity.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return You must return true for the menu to be displayed;
+     * if you return false it will not be shown.
+     * @see #onPrepareOptionsMenu
+     * @see #onOptionsItemSelected
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater
+        MenuInflater inflater = getMenuInflater();
+        // Use the inflater's inflate method to inflate main_menu layout
+        inflater.inflate(R.menu.main_menu, menu);
+        // Return true to display the menu
+        return true;
+    }
+
+    /**
+     * Callback invoked when a menu item from this Activity's menu get selected.
+     *
+     * @param item The menu item that was selected by the user
+     * @return true if you handle the menu click here, false otherwise
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            // Open SettingsActivity
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /**
      * Request current weather data
@@ -232,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
             return fragment;
         }
 
-        /**
+        /*
          * Update data presented in the fragments of the ViewPager
          *
          * @param weatherInfo WeatherInfo object that contain the new data

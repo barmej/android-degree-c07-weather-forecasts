@@ -1,10 +1,26 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">توقعات الطقس</string>
 
-    <!-- Secondary weather info labels -->
+    <!-- Title of the SettingsActivity -->
+    <string name="title_activity_settings">الإعدادات</string>
+
+    <!-- Used to open Settings Menu from MainActivity and DetailActivity -->
+    <string name="action_settings">الإعدادات</string>
+
+    <!-- - - - - - - - - - - - - - - - -
+     - Secondary weather info labels   -
+     - - - - - - - - - - - - - - - - - -->
     <string name="wind_label">الرياح</string>
     <string name="pressure_label">الضغط</string>
     <string name="humidity_label">الرطوبة</string>
+
+    <!-- - - - - - - - - - - - - - - - -
+      - Preference Labels              -
+      - - - - - - - - - - - - - - - - - -->
+    <string name="pref_location_label">الموقع</string>
+    <string name="pref_units_label">وحدة قياس الحرارة</string>
+    <string name="pref_units_label_metric">النظام المتري</string>
+    <string name="pref_units_label_imperial">النظام الامبراطوري</string>
 
     <!-- - - - - - - - - - - - - - - - -
       - Used by WeatherUtils           -

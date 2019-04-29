@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - This layout is the used for SettingsActivity, it only contain one child which is a fragment. -
+  - This fragment point to Settings fragment class which is responsible for creating the         -
+  - settings user interface that allow the user to set his preferences                           -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weather_settings_fragment"
+    android:name="com.barmej.weatherforecasts.fragments.SettingsFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
