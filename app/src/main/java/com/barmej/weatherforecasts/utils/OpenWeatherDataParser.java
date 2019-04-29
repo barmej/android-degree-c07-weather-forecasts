@@ -5,6 +5,7 @@ import android.util.Log;
 import com.barmej.weatherforecasts.entity.Forecast;
 import com.barmej.weatherforecasts.entity.ForecastLists;
 import com.barmej.weatherforecasts.entity.Main;
+import com.barmej.weatherforecasts.entity.Sys;
 import com.barmej.weatherforecasts.entity.Weather;
 import com.barmej.weatherforecasts.entity.WeatherInfo;
 import com.barmej.weatherforecasts.entity.Wind;
@@ -76,6 +77,14 @@ public class OpenWeatherDataParser {
     private static final String OWM_WEATHER_DESCRIPTION = "description";
     private static final String OWM_WEATHER_ICON = "icon";
 
+    /**
+     * Sunrise and Sunset times
+     */
+    private static final String OWM_SYS = "sys";
+    private static final String OWM_SUNRISE = "sunrise";
+    private static final String OWM_SUNSET = "sunset";
+
+
 
     /**
      * Check if there is an error in the response json
@@ -124,6 +133,9 @@ public class OpenWeatherDataParser {
         // Wind speed and direction are wrapped in a Wind object
         JSONObject windObject = weatherJson.getJSONObject(OWM_WIND);
 
+        // Sunrise and sunset times
+        JSONObject sysObject = weatherJson.getJSONObject(OWM_SYS);
+
         // Get data from Json and assign it to Java object
         WeatherInfo weatherInfo = new WeatherInfo();
         weatherInfo.setDt(weatherJson.getLong(OWM_DATE));
@@ -145,6 +157,10 @@ public class OpenWeatherDataParser {
         weatherList.add(weather);
         weatherInfo.setWeather(weatherList);
         weatherInfo.setName(weatherJson.has(OWM_CITY_NAME) ? weatherJson.getString(OWM_CITY_NAME) : "");
+        Sys sys = new Sys();
+        sys.setSunrise(sysObject.getLong(OWM_SUNRISE));
+        sys.setSunset(sysObject.getLong(OWM_SUNSET));
+        weatherInfo.setSys(sys);
         return weatherInfo;
 
     }

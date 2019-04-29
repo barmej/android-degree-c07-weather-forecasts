@@ -84,8 +84,8 @@ public class HoursForecastAdapter extends RecyclerView.Adapter<HoursForecastAdap
 
         /* Weather Clock Time ******************************************************************* */
 
-        // Get human readable string using getHourOfDayUTCTime utility method and display it
-        String hourClockString = CustomDateUtils.getHourOfDayUTCTime(forecast.getDt());
+        // Get human readable string using getHourOfDay utility method and display it
+        String hourClockString = CustomDateUtils.getHourOfDay(forecast.getDt());
 
         // Display clock hour
         forecastAdapterViewHolder.timeTextView.setText(hourClockString);

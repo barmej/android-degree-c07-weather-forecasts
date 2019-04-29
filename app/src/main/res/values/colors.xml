@@ -10,6 +10,12 @@
     <color name="background_start_color_evening">#38068f</color>
     <color name="background_end_color_evening">#9b0493</color>
 
+    <color name="background_start_color_morning">#064d8f</color>
+    <color name="background_end_color_morning">#0691cb</color>
+
+    <color name="background_start_color_afternoon">#8f4a06</color>
+    <color name="background_end_color_afternoon">#cb8306</color>
+
     <!-- Forecast's lists rounded shape color -->
     <color name="background_transparent_black">#55000000</color>
 

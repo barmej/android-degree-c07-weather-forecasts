@@ -7,6 +7,7 @@ public class WeatherInfo {
     private List<Weather> weather = null;
     private Main main;
     private Wind wind;
+    private Sys sys;
     private long dt;
     private String name;
 
@@ -32,6 +33,14 @@ public class WeatherInfo {
 
     public void setWind(Wind wind) {
         this.wind = wind;
+    }
+
+    public Sys getSys() {
+        return sys;
+    }
+
+    public void setSys(Sys sys) {
+        this.sys = sys;
     }
 
     public long getDt() {

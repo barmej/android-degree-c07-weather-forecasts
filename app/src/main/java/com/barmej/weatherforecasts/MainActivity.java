@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,7 +32,9 @@ import com.barmej.weatherforecasts.entity.WeatherInfo;
 import com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment;
 import com.barmej.weatherforecasts.fragments.SecondaryWeatherInfoFragment;
 import com.barmej.weatherforecasts.network.NetworkUtils;
+import com.barmej.weatherforecasts.utils.CustomDateUtils;
 import com.barmej.weatherforecasts.utils.OpenWeatherDataParser;
+import com.barmej.weatherforecasts.utils.SharedPreferencesHelper;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -52,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
      * FragmentManager to be used in ViewPager FragmentAdapter
      */
     private FragmentManager mFragmentManager;
+
+    /**
+     * Container of Weather fragments ViewPager and TabLayout
+     */
+    private FrameLayout mHeaderLayout;
 
     /**
      * ViewPage & FragmentPagerAdapter to show the HeaderFragments
@@ -81,7 +90,10 @@ public class MainActivity extends AppCompatActivity {
         // Get an instance of FragmentManager and assign it to mFragmentManager variable
         mFragmentManager = getSupportFragmentManager();
 
-        // Create ViewPager instance
+        // Get a handle on header FrameLayout
+        mHeaderLayout = findViewById(R.id.header);
+
+        // Get the ViewPager object
         mViewPager = findViewById(R.id.pager);
 
         // Create and attach HeaderFragmentAdapter to the ViewPager
@@ -107,11 +119,19 @@ public class MainActivity extends AppCompatActivity {
         // Get instance of NetworkUtils
         mNetworkUtils = NetworkUtils.getInstance(this);
 
+        mHeaderLayout.setVisibility(View.INVISIBLE);
+        mHoursForecastsRecyclerView.setVisibility(View.INVISIBLE);
+        mDaysForecastRecyclerView.setVisibility(View.INVISIBLE);
+
         // Request current weather data
         requestWeatherInfo();
 
         // Request forecasts data
         requestForecastsInfo();
+
+        // Update window background based on hour of the day
+        changeWindowBackground();
+
     }
 
     @Override
@@ -194,6 +214,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if (weatherInfo != null) {
                             mHeaderFragmentAdapter.updateData(weatherInfo);
+                            mHeaderLayout.setVisibility(View.VISIBLE);
+                            updateSunriseAndSunsetTimes(weatherInfo);
+                            changeWindowBackground();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -236,6 +259,8 @@ public class MainActivity extends AppCompatActivity {
                                 && forecastLists.getDaysForecasts() != null) {
                             mHoursForecastAdapter.updateData(forecastLists.getHoursForecasts());
                             mDaysForecastsAdapter.updateData(forecastLists.getDaysForecasts());
+                            mHoursForecastsRecyclerView.setVisibility(View.VISIBLE);
+                            mDaysForecastRecyclerView.setVisibility(View.VISIBLE);
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -251,6 +276,36 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         mNetworkUtils.addToRequestQueue(forecastsListRequest);
 
+    }
+
+    /**
+     * Update sunrise hour and sunset hour saved in the SharedPreferences
+     *
+     * @param weatherInfo current weather info
+     */
+    private void updateSunriseAndSunsetTimes(WeatherInfo weatherInfo) {
+        int sunriseHour = CustomDateUtils.getHourOfDayAsInteger(weatherInfo.getSys().getSunrise());
+        SharedPreferencesHelper.setSunriseHour(MainActivity.this, sunriseHour);
+        int sunsetHour = CustomDateUtils.getHourOfDayAsInteger(weatherInfo.getSys().getSunset());
+        SharedPreferencesHelper.setSunsetHour(MainActivity.this, sunsetHour);
+    }
+
+    /**
+     * Change window background depending on current hour in the day
+     * The hour will be used to determine if it's morning, afternoon or evening
+     */
+    private void changeWindowBackground() {
+        int sunriseHour = SharedPreferencesHelper.getSunriseHour(this);
+        int sunsetHour = SharedPreferencesHelper.getSunsetHour(this);
+        long middayHour = sunriseHour + (sunsetHour - sunriseHour) / 2;
+        long currentHour = CustomDateUtils.getHourOfDayAsInteger(System.currentTimeMillis() / 1000);
+        if (currentHour >= sunriseHour && currentHour < middayHour) {
+            getWindow().getDecorView().setBackgroundResource(R.drawable.shape_main_morning_background);
+        } else if (currentHour >= middayHour && currentHour <= sunsetHour) {
+            getWindow().getDecorView().setBackgroundResource(R.drawable.shape_main_afternoon_background);
+        } else {
+            getWindow().getDecorView().setBackgroundResource(R.drawable.shape_main_evening_background);
+        }
     }
 
     /**

@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_ALL;
@@ -66,7 +65,7 @@ public final class CustomDateUtils {
             String readableDate = getReadableDateString(context, timeInMillis);
             if (daysFromEpochToProvidedDate - daysFromEpochToToday < 2) {
                 // Replace day name by "today" or "tomorrow"
-                String localizedDayName = new SimpleDateFormat("EEEE", Locale.US).format(timeInMillis);
+                String localizedDayName = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(timeInMillis);
                 return readableDate.replace(localizedDayName, dayName);
             } else {
                 return readableDate;
@@ -110,7 +109,7 @@ public final class CustomDateUtils {
             case 1:
                 return context.getString(R.string.tomorrow);
             default:
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
                 return dayFormat.format(dateInMillis);
         }
     }
@@ -118,13 +117,23 @@ public final class CustomDateUtils {
     /**
      * Get hour of the day from UTC time in milliseconds
      *
-     * @param dateInMillis UTC time in milliseconds
+     * @param timeInSeconds time in seconds
      * @return clock hour of the given time
      */
-    public static String getHourOfDayUTCTime(long dateInMillis) {
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return dateFormat.format(new Date(dateInMillis));
+    public static String getHourOfDay(long timeInSeconds) {
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+        return dateFormat.format(new Date(timeInSeconds * 1000));
+    }
+
+    /**
+     * Get hour of the day from UTC time in milliseconds as number in 24hrs representation
+     *
+     * @param timeInSeconds time in seconds
+     * @return clock hour of the given time as integer from 1 to 24
+     */
+    public static int getHourOfDayAsInteger(long timeInSeconds) {
+        DateFormat dateFormat = new SimpleDateFormat("HH", Locale.ENGLISH);
+        return Integer.parseInt(dateFormat.format(new Date(timeInSeconds * 1000)));
     }
 
 
