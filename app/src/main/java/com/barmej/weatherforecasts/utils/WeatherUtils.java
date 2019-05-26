@@ -28,6 +28,12 @@ public final class WeatherUtils {
 
         int windStringFormat = R.string.format_wind_kmh;
 
+        // If the imperial system selected, use the mph unit
+        String preferredMeasurementSystem = SharedPreferencesHelper.getPreferredMeasurementSystem(context);
+        if (preferredMeasurementSystem.equals(context.getString(R.string.pref_units_imperial))) {
+            windStringFormat = R.string.format_wind_mph;
+        }
+
         String direction = context.getString(R.string.unknown_direction);
         if (degrees == Integer.MAX_VALUE) {
             // Leave the unknown value
