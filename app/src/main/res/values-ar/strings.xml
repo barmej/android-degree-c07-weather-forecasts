@@ -27,9 +27,9 @@
       - - - - - - - - - - - - - - - - -->
 
     <!-- HighLow Temperature format -->
-    <string name="high_low_temperature">
-        <xliff:g id="high_temp">%1$1.0f</xliff:g>\u00B0 /
-        <xliff:g id="low_temp">%2$1.0f</xliff:g>\u00B0
+    <string name="high_low_temperature"> \u200F
+        \u00B0<xliff:g id="high_temp">%1$1.0f</xliff:g> /
+        \u00B0<xliff:g id="low_temp">%2$1.0f</xliff:g>
     </string>
 
     <!-- Temperature format -->
