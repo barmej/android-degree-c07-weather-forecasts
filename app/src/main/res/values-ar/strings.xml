@@ -82,5 +82,16 @@
     <!-- For labelling tomorrow -->
     <string name="tomorrow">غداً</string>
 
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      - Used for Accessibility purposes                     -
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <string name="access_forecast">حالة الطقس: <xliff:g id="condition">%1$s</xliff:g></string>
+    <string name="access_high_temp">درجة الحرارة العظمى: <xliff:g id="high">%1$s</xliff:g></string>
+    <string name="access_low_temp">درجة الحرارة الصغرى: <xliff:g id="low">%1$s</xliff:g></string>
+    <string name="access_high_low_temp">درجة الحرارة العظمى: <xliff:g id="hight">%1$f</xliff:g> / درجة الحرارة الصغرى: <xliff:g id="low">%2$f</xliff:g></string>
+    <string name="access_humidity">الرطوبة: <xliff:g id="humidity">%1$s</xliff:g></string>
+    <string name="access_pressure">الضغط الجوي: <xliff:g id="pressure">%1$s</xliff:g></string>
+    <string name="access_wind">سرعة واتجاه الرياح: <xliff:g id="wind">%1$s</xliff:g></string>
+
 
 </resources>

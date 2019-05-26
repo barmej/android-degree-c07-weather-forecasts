@@ -94,6 +94,13 @@ public class DaysForecastAdapter extends RecyclerView.Adapter<DaysForecastAdapte
         // Display weather description
         forecastAdapterViewHolder.descriptionTextView.setText(description);
 
+        // Create the accessibility String from the weather description */
+        String descriptionAccessibility = mContext.getString(R.string.access_forecast, description);
+
+        // Set content description (for accessibility purposes)
+        forecastAdapterViewHolder.descriptionTextView.setContentDescription(descriptionAccessibility);
+        forecastAdapterViewHolder.iconImageView.setContentDescription(descriptionAccessibility);
+
 
         /* High (max) temperature *************************************************************** */
 
@@ -106,6 +113,12 @@ public class DaysForecastAdapter extends RecyclerView.Adapter<DaysForecastAdapte
         // Display high temperature
         forecastAdapterViewHolder.highTempTextView.setText(highTemperatureString);
 
+        // Create the accessibility String from the weather description
+        String highTemperatureAccessibility = mContext.getString(R.string.access_high_temp, highTemperatureString);
+
+        // Set content description (for accessibility purposes)
+        forecastAdapterViewHolder.highTempTextView.setContentDescription(highTemperatureAccessibility);
+
 
         /* Low (min) temperature **************************************************************** */
 
@@ -117,6 +130,12 @@ public class DaysForecastAdapter extends RecyclerView.Adapter<DaysForecastAdapte
 
         // Display low temperature
         forecastAdapterViewHolder.lowTempTextView.setText(lowTemperatureString);
+
+        // Create the accessibility String from the weather description
+        String lowTemperatureAccessibility = mContext.getString(R.string.access_low_temp, lowTemperatureString);
+
+        // Set content description (for accessibility purposes)
+        forecastAdapterViewHolder.lowTempTextView.setContentDescription(lowTemperatureAccessibility);
 
     }
 

@@ -122,13 +122,27 @@ public class PrimaryWeatherInfoFragment extends Fragment {
         // Display weather description
         mDescriptionTextView.setText(description);
 
+        // Create the accessibility String from the weather description
+        String descriptionAccessibility = getString(R.string.access_forecast, description);
+
+        // Set content description (for accessibility purposes)
+        mDescriptionTextView.setContentDescription(descriptionAccessibility);
+        mIconImageView.setContentDescription(descriptionAccessibility);
+
         /* Temperature ************************************************************************** */
 
         // Read temperature from weather object
         String temperatureString = getString(R.string.format_temperature, mWeatherInfo.getMain().getTemp());
 
-        // Display high temperature
+        // Display temperature
         mTemperatureTextView.setText(temperatureString);
+
+        // Create the accessibility String from the temperature
+        String temperatureAccessibility = getString(R.string.access_high_temp, temperatureString);
+
+        // Set the content description (for accessibility purposes)
+        mTemperatureTextView.setContentDescription(temperatureAccessibility);
+
 
         /* High (max) & Low (min) temperature temperature *************************************** */
 
@@ -140,6 +154,12 @@ public class PrimaryWeatherInfoFragment extends Fragment {
 
         // Display high/low temperature
         mHighLowTempTextView.setText(getString(R.string.high_low_temperature, highTemperature, lowTemperature));
+
+        // Create the accessibility String from high and low temperature
+        String highLowTemperatureAccessibility = getString(R.string.access_high_low_temp, highTemperature, lowTemperature);
+
+        // Set the content description (for accessibility purposes)
+        mHighLowTempTextView.setContentDescription(highLowTemperatureAccessibility);
 
     }
 

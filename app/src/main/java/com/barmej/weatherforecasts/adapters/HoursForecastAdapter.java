@@ -82,6 +82,15 @@ public class HoursForecastAdapter extends RecyclerView.Adapter<HoursForecastAdap
         // Display weather condition icon
         forecastAdapterViewHolder.iconImageView.setImageResource(weatherImageId);
 
+        // Get weather condition description
+        String description = forecast.getWeather().get(0).getDescription();
+
+        // Create the accessibility String from the weather description
+        String descriptionAccessibility = mContext.getString(R.string.access_forecast, description);
+
+        // Set content description (for accessibility purposes)
+        forecastAdapterViewHolder.iconImageView.setContentDescription(descriptionAccessibility);
+
         /* Weather Clock Time ******************************************************************* */
 
         // Get human readable string using getHourOfDay utility method and display it
@@ -100,6 +109,12 @@ public class HoursForecastAdapter extends RecyclerView.Adapter<HoursForecastAdap
 
         // Display high temperature
         forecastAdapterViewHolder.temperatureTextView.setText(highTemperatureString);
+
+        // Create the accessibility String from the weather description
+        String highTemperatureAccessibility = mContext.getString(R.string.access_high_temp, highTemperatureString);
+
+        // Set content description (for accessibility purposes)
+        forecastAdapterViewHolder.temperatureTextView.setContentDescription(highTemperatureAccessibility);
 
     }
 
