@@ -18,7 +18,7 @@
       - Preference Labels              -
       - - - - - - - - - - - - - - - - - -->
     <string name="pref_location_label">Location</string>
-    <string name="pref_units_label">Temperature Unit</string>
+    <string name="pref_units_label">Measurement System</string>
     <string name="pref_units_label_metric">Metric</string>
     <string name="pref_units_label_imperial">Imperial</string>
 
