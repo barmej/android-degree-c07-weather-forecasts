@@ -65,7 +65,7 @@ public final class CustomDateUtils {
             String readableDate = getReadableDateString(context, timeInMillis);
             if (daysFromEpochToProvidedDate - daysFromEpochToToday < 2) {
                 // Replace day name by "today" or "tomorrow"
-                String localizedDayName = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(timeInMillis);
+                String localizedDayName = new SimpleDateFormat("EEEE", Locale.getDefault()).format(timeInMillis);
                 return readableDate.replace(localizedDayName, dayName);
             } else {
                 return readableDate;
@@ -109,7 +109,7 @@ public final class CustomDateUtils {
             case 1:
                 return context.getString(R.string.tomorrow);
             default:
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
                 return dayFormat.format(dateInMillis);
         }
     }
@@ -121,7 +121,7 @@ public final class CustomDateUtils {
      * @return clock hour of the given time
      */
     public static String getHourOfDay(long timeInSeconds) {
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         return dateFormat.format(new Date(timeInSeconds * 1000));
     }
 
@@ -132,7 +132,7 @@ public final class CustomDateUtils {
      * @return clock hour of the given time as integer from 1 to 24
      */
     public static int getHourOfDayAsInteger(long timeInSeconds) {
-        DateFormat dateFormat = new SimpleDateFormat("HH", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("HH", Locale.getDefault());
         return Integer.parseInt(dateFormat.format(new Date(timeInSeconds * 1000)));
     }
 
