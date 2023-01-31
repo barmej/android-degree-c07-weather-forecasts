@@ -17,10 +17,14 @@ import androidx.viewpager.widget.ViewPager;
 import com.barmej.weatherforecasts.adapters.DaysForecastAdapter;
 import com.barmej.weatherforecasts.adapters.HoursForecastAdapter;
 import com.barmej.weatherforecasts.entity.Forecast;
+import com.barmej.weatherforecasts.entity.WeatherInfo;
 import com.barmej.weatherforecasts.fragments.PrimaryWeatherInfoFragment;
 import com.barmej.weatherforecasts.fragments.SecondaryWeatherInfoFragment;
 import com.barmej.weatherforecasts.network.NetworkUtils;
+import com.barmej.weatherforecasts.utils.OpenWeatherDataParser;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -108,26 +112,29 @@ public class MainActivity extends AppCompatActivity {
     /**
      * AsyncTask to execute data pulling request off the main thread
      */
-    class WeatherDataPullTask extends AsyncTask<Void, Integer, String> {
+    class WeatherDataPullTask extends AsyncTask<Void, Integer, WeatherInfo> {
 
-        protected String doInBackground(Void... v) {
+        protected WeatherInfo doInBackground(Void... v) {
 
             // The getWeatherUrl method will return the URL that we need to get the JSON for the current weather
             URL weatherRequestUrl = NetworkUtils.getWeatherUrl(MainActivity.this);
 
-            String weatherJsonResponse = null;
+            WeatherInfo weatherInfo;
             try {
                 // Use the URL to retrieve the JSON
-                weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
-            } catch (IOException e) {
+                String weatherJsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+                // Get WeatherInfo object from json response
+                weatherInfo = OpenWeatherDataParser.getWeatherInfoObjectFromJson(weatherJsonResponse);
+                return weatherInfo;
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
-            return weatherJsonResponse;
+            return null;
 
         }
 
-        protected void onPostExecute(String weatherJsonResponse) {
+        protected void onPostExecute(WeatherInfo weatherInfo) {
             Toast.makeText(MainActivity.this, "Request Operation Completed!", Toast.LENGTH_SHORT).show();
         }
 
