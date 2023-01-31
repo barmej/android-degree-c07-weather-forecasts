@@ -18,7 +18,7 @@
       - Preference Labels              -
       - - - - - - - - - - - - - - - - - -->
     <string name="pref_location_label">الموقع</string>
-    <string name="pref_units_label">وحدة قياس الحرارة</string>
+    <string name="pref_units_label">نظام وحدات القياس</string>
     <string name="pref_units_label_metric">النظام المتري</string>
     <string name="pref_units_label_imperial">النظام الامبراطوري</string>
 
